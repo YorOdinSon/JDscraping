@@ -5,9 +5,9 @@ import parseAndSend
 import time
 
 today = date.today()
-day = today.strftime("%B %d, %Y")
+day = today.strftime("%B %d, %Y") #not used in this section of the tool, but I like using dates on Python :D
 
-requestURL = "https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs"
+requestURL = "https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs" #I found this in the jobs API within the network tab of the dev tools - the below is what your browser passes to Workday to retrieve the JSON
 
 #fetched the jobs file from Google DevTool, and right clicked on it to "copy as cURL" and used http://curlconverter.com/ to get the headers, cookies, and json_data
 cookies = {
@@ -48,7 +48,7 @@ offset = 0
 jobIdsCount = set() #tracking the jobIDS in the JSON
 apiCallsCount = 0
 
-while True:
+while True: #looping everything, as in this specific case, Workday allowed me to fetch 20 results for each call.
     json_data = {
         'appliedFacets': {},
         'limit': limit,
@@ -66,7 +66,7 @@ while True:
     if response.status_code != 200:
         print(f"❌ Failed to fetch jobs. Status Code: {response.status_code}") #simple error handling to see why it fails
         #print("Response Headers:", response.headers)
-        break
+        break #breaking the cycle at the very first error I get.
     
     jobs = response.json()
     job_list = jobs.get("jobPostings", [])
